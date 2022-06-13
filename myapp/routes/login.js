@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 // var modelLogin = require("../model/login")
 var mysql = require('mysql');
-const { getLoginPost } = require('../contoller/contoller');
+// const { getLoginPost } = require('../controller/controller');
 const func = require('../model/login');
 
 var con = mysql.createConnection({
