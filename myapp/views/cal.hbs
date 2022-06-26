@@ -11,9 +11,9 @@
 
     <div id="calc">
         <form>           
-                <label for="num1">num1:</label><br>
+                <label for="num1">ENTER NUMBER 1:</label><br>
                 <input class="num1" type="number" id="num1" name="num1" value=><br>
-                <label for="num2">num2:</label><br>
+                <label for="num2">ENTER NUMBER 2:</label><br>
                 <input class="num2" type="number" id="num2" name="num2" value=><br><br>
                 <button id="1" class="add">ADD</button>
                 <button id="2" class="sub">SUBTRACT</button>
@@ -27,10 +27,10 @@
         <table border="1"
         align="centre">
             <tr>
-                 <th>Num1</th>
-                <th>Num2</th>
-                <th>Oper.</th>
-                <th>Sol.</th>
+                 <th>Number 1</th>
+                <th>Number 2</th>
+                <th>Operation</th>
+                <th>Solution</th>
             </tr>
     
             <tr>
@@ -55,16 +55,22 @@
                 var n = $(".num2").val();
                 $.post({ url: "cal/add", data: { a: $(".num1").val(), b: $(".num2").val() } }).then((data) => {
                     console.log(data);
+
                     $("#ans").append('<p>' + "ANSWER :" + data + '</p>');
                     $(".x").append('<p>' + m + '</p>');
                     $(".y").append('<p>' + n + '</p>');
                     $(".res").append('<p>' + data + '</p>');
                     $(".op").append('<p>+<p>');
+                       // let comments_1 = sessionStorage.getItem('record - 1');
+   //  let comments_2 = sessionStorage.getItem('record - 2');
+     //$(".x").append('<p>'+comments_1+'<p>');
+      //   $(".y").append('<p>'+comments_2+'<p>');
                 });
             });
         })
         $(document).ready(() => {
             $(".sub").click(function (event) {
+                $('#list').show();
                 event.preventDefault()
                 console.log($(".num1").val())
                 console.log($(".num2").val())
@@ -77,6 +83,8 @@
                     $(".y").append('<p>' + n + '</p>');
                     $(".res").append('<p>' + data + '</p>');
                     $(".op").append('<p>-<p>');
+
+       
                 });
             });
         })
@@ -97,6 +105,36 @@
                 });
             });
         })
+
+         window.onload = function() {
+
+        // If sessionStorage is storing default values (ex. name), exit the function and do not restore data
+        if (sessionStorage.getItem('name') == "name") {
+            return;
+        }
+
+        // If values are not blank, restore them to the fields
+        var name = sessionStorage.getItem('Number 1');
+        if (Number1 !== null) $('#num1').val(Number1);
+
+        var email = sessionStorage.getItem('Number 2');
+        if (Number2 !== null) $('#num2').val(Number2);
+
+        var subject= sessionStorage.getItem('Operation');
+        if (Operation!== null) $('#oper').val(Operation);
+
+        var message= sessionStorage.getItem('Solution');
+        if (Solution!== null) $('#sol').val(Solution);
+    }
+window.onbeforeunload = function() {
+    localStorage.setItem("Number 1", $('#num1').val());
+    localStorage.setItem("Number 2", $('#num2').val());
+    localStorage.setItem("Operation", $('#oper').val());
+    localStorage.setItem("Solution", $('#sol').val());
+   // localStorage.setItem("detail", $('#inputDetail').val());
+    // ...
+}
+          
     </script>
 </body>
 

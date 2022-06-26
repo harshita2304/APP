@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-//var _ = require('underscore');
+var _ = require('underscore');
 var mysql = require('mysql');
 
 var pool = mysql.createPool({
@@ -11,9 +11,23 @@ var pool = mysql.createPool({
   database : 'kccStudent'
 });
 
+//router.get('/', function (req, res) {
+//res.render('cal');
+//});
+
+//Conncting Calculator with DATABASE
 router.get('/',function(req, res){
-       res.render('cal');
+  //res.render('cal');
+  pool.getConnection(function (err,connection){
+    //id = getRequestString("id");
+    connection.query("SELECT * FROM calcu",function(err,rows){
+       if(err) throw err;
+       else console.log(rows);
+       var obj = rows;
+       res.render('cal',{obj});
     });
+ });
+});
 
 router.all('/add',function(req, res){
   console.log("ADDITION");
@@ -24,6 +38,8 @@ router.all('/add',function(req, res){
   var result =x+y;
   console.log(result);
   res.json(result);
+  //sessionStorage.setItem('record - 1', 'My comments');
+   //  sessionStorage.setItem('record - 2', 'My comments 2');
   pool.getConnection(function (err,connection){
     connection.query("INSERT INTO calcu (num1, num2 , oper, sol) VALUES ('"+x+"', '"+y+"','"+o+"','"+result+"')",function(err,rows){
        connection.release();
